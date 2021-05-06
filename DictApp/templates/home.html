@@ -1,0 +1,73 @@
+{% extends "base.html" %}
+{% block content %}
+
+<div class="content-section">
+    <form id="form" method="POST" action="">
+        {{ form.hidden_tag() }}
+        <fieldset class="form-group">
+            <legend class="border-bottom mb-4">Search Word</legend>
+            <div class="form-group">
+                {% if form.word.errors %}
+                    {{ form.word(class="form-control form-control-lg is-invalid") }}
+                    <div class="invalid-feedback">
+                        {% for errors in form.word.errors %}
+                        <span>{{ errors }}</span>
+                        {% endfor %}
+                    </div>
+                {% else %}
+                {{ form.word(class="form-control form-control-lg") }}
+                {% endif %}
+            </div>
+        </fieldset>
+        <div class="form-group">
+            {{ form.search(class="btn btn-outline-info", value="Search") }}
+        </div>
+    </form>
+</div>
+
+{% if result %}
+{% for res in result %}
+<div class="content-section">
+    <form id="form2" method="POST" action="">
+        {{ form2.hidden_tag() }}
+        <fieldset class="form-group">
+            {{ form2.word(value=res.word, type="hidden") }}
+        <h1>{{res.word}}</h1>
+        <p>{{ form2.definition.label(class="form-control-label") }} : {{res.definition}}</p>
+            {{ form2.definition(value=res.definition, type="hidden") }}
+        <p>{{ form2.examples.label(class="form-control-label") }} : {{res.example}}</p>
+            {{ form2.examples(value=res.example, type="hidden") }}
+        </fieldset>
+        <div class="form-group">
+            {{ form2.insert(class="btn btn-outline-info", value="Insert") }}
+        </div>
+    </form>
+</div>
+{% endfor %}
+{% endif %}
+
+{% if posts %}
+{% for post in posts %}
+
+<div class="card">
+  <div class="card-body">
+    <h5 class="card-title">{{post.word}}</h5>
+    <p class="card-text">Definition : {{post.definition}}</p>
+      <p class="card-text">Example : {{post.examples}}</p>
+    <a href="{{post.id}}/delete" class="btn btn-outline-danger">Delete</a>
+      {% if post.power > 0 %}
+      <a href="#" class="btn btn-outline-success">Power : {{post.power}}</a>
+      {% endif %}
+      {% if post.power < 0 %}
+      <a href="#" class="btn btn-outline-danger">Power : {{post.power}}</a>
+      {% endif %}
+      {% if post.power == 0 %}
+      <a href="#" class="btn btn-outline-secondary">Power : {{post.power}}</a>
+      {% endif %}
+  </div>
+</div>
+
+{% endfor %}
+{% endif %}
+
+{% endblock content %}

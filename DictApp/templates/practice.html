@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+{% block content %}
+{% if content %}
+{% for cont in content %}
+
+<div class="content-section">
+    <form id="form" method="POST" action="">
+        {{ form.hidden_tag() }}
+        {{ form.text(value=cont.question, type="hidden") }}
+        {{ form.secret1(value=cont.answare1, type="hidden") }}
+        {{ form.secret2(value=cont.answare2, type="hidden") }}
+        {{ form.secret3(value=cont.answare3, type="hidden") }}
+        <fieldset class="form-group">
+            <h1>{{cont.question}}</h1>
+        </fieldset>
+        <div class="form-group">
+            {{ form.button1(class="btn btn-dark", value=cont.answare1) }}
+            {{ form.button2(class="btn btn-dark", value=cont.answare2) }}
+            {{ form.button3(class="btn btn-dark", value=cont.answare3) }}
+        </div>
+    </form>
+</div>
+
+{% endfor %}
+{% endif %}
+{% endblock content %}
